@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ecvictor7/gotth/interal/store"
+	"github.com/ecvictor7/gotth/internal/store"
 )
 
 type GuestStore interface {

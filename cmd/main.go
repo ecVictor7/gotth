@@ -3,6 +3,9 @@ package main
 import (
 	"log"
 	"os"
+
+	"github.com/ecvictor7/gotth/internal/server"
+	"github.com/ecvictor7/gotth/internal/store"
 )
 
 func main() {
