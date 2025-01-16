@@ -64,7 +64,7 @@ func (s *server) Start() error {
 	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		if err := s.httpServer.ListandAndServe(); err != nil &&
+		if err := s.httpServer.ListenAndServe(); err != nil &&
 			err != http.ErrServerClosed {
 			log.Fatalf("Error when running server: %s", err)
 		}
