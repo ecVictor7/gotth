@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	logger := log.New(os.Stoudt, "[Spooktober] ", log.LstdFlags)
+	logger := log.New(os.Stdout, "[Spooktober] ", log.LstdFlags)
 
 	port := 9000
 
-	logger.Print("Creating guests stroe..")
+	logger.Print("Creating guests store..")
 	guestDb := store.NewGuestStore(logger)
 	guestDb.AddGuest(store.Guest{Name: "Sigrid", Email: "sig@fake-email.no"})
 
