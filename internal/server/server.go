@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	//"github.com/docker/docker/daemon/logger/templates"
 	"github.com/ecvictor7/gotth/internal/store"
 )
 
@@ -49,7 +50,7 @@ func (s *server) Start() error {
 	router := http.NewServeMux()
 
 	fileServer := http.FileServer(http.Dir("./static"))
-	router.Handle("Get /static/", http.StripPrefix("/static/", fileServer))
+	router.Handle("GET /static/", http.StripPrefix("/static/", fileServer))
 
 	//routes
 	router.HandleFunc("GET /", s.defaultHandler)
@@ -81,5 +82,5 @@ func (s *server) Start() error {
 // GET /
 func (s *server) defaultHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("My sppoky halloween party!"))
+	w.Write([]byte("My spo   oky halloween party!"))
 }
