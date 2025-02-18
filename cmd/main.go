@@ -3,6 +3,9 @@ package main
 import (
 	"log"
 	"os"
+
+	"github.com/ecVictor7/gotth/server"
+	"github.com/ecVictor7/gotth/store"
 )
 
 func main() {
