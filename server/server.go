@@ -3,12 +3,13 @@ package server
 import (
 	"context"
 	"fmt"
-	"gotth/store"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/ecVictor7/gotth/store"
 )
 
 type GuestStore interface {
