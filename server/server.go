@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +11,7 @@ import (
 	"syscall"
 
 	"github.com/ecVictor7/gotth/store"
+	"github.com/ecVictor7/gotth/templates"
 )
 
 type GuestStore interface {
@@ -52,6 +54,8 @@ func (s *server) Start() error {
 
 	//routes
 	router.HandleFunc("GET /", s.defaultHandler)
+	router.HandleFunc("GET /guests", s.getGuestsHandler)
+	router.HandleFunc("POST /guests", s.addGuestHandler)
 
 	//define server
 	s.httpServer = &http.Server{
@@ -79,6 +83,50 @@ func (s *server) Start() error {
 
 // GET /
 func (s *server) defaultHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("My spooky halloween party!"))
+	//w.WriteHeader(http.StatusOK)
+	//w.Write([]byte("My spooky halloween party!"))
+
+	homeTpl := templates.Home()
+	templates.Layout(homeTpl, "Home").Render(r.Context(), w)
+}
+
+func (s *server) getGuestsHandler(w http.ResponseWriter, r *http.Request) {
+	guests, err := s.guestDb.GetGuests()
+	if err != nil {
+		s.logger.Printf("Error when fetching guests: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	templates.Guests(guests).Render(r.Context(), w)
+
+}
+
+func (s *server) addGuestHandler(w http.ResponseWriter, r *http.Request) {
+	payload, err := io.ReadAll(r.Body)
+	if err != nil {
+		s.logger.Printf("Error when reading request body: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	guest, err := store.DecodeGuest(payload)
+	if err != nil {
+		s.logger.Printf("Error when decoding guest: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if err := s.guestDb.AddGuest(guest); err != nil {
+		s.logger.Printf("Error when adding guest: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	guests, err := s.guestDb.GetGuests()
+	if err != nil {
+		s.logger.Printf("Error when getting guests: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	templates.Guests(guests).Render(r.Context(), w)
 }

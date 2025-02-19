@@ -1,0 +1,20 @@
+package templates
+
+import (
+    "github.com/ecVictor7/gotth/store"
+)
+
+templ Guests(guests []store.Guest) {
+    
+    <div class="guest-list">
+
+        for _, guest := range guests {
+            <div class="guest">
+                <p class="text-black">{ guest.Name}</p>
+                <p class="text-black">{ guest.Email}</p>
+
+            </div>
+        }
+
+    </div>
+}

@@ -1,0 +1,14 @@
+package templates
+
+templ Home() {
+    <h2 class="text-2xl text-black">My Halloween party</h2>
+    <p class="text-black">I would like to invite you to my halloween party</p>
+    <br />
+    <form hx-post="/guests" hx-target="#guests" hx-ext="json-enc">
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <button class="text-black bg-orange-500 block mt-4" type="submit">Join the party</button>
+    </form>
+    <h4 class="text-black">Guests attending: </h4>
+    <div id="guests" hx-get="/guests" hx-trigger="load"></div>
+}

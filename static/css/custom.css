@@ -1,0 +1,11 @@
+@import "tailwindcss/preflight";
+
+
+[x-cloak] { display: none !important; }
+.smooth {
+    transition: all 1s ease-in;
+}
+
+body {
+    background: #111827;
+}
